@@ -260,7 +260,12 @@
                 nixd
                 nil
               ]
-              ++ devQmlPkgs;
+              ++ devQmlPkgs
+              ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
+                pkgs.sway
+                pkgs.xwayland
+                pkgs.util-linux
+              ];
 
             shellHook = ''
               touch quickshell/.qmlls.ini 2>/dev/null

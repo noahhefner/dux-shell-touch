@@ -15,6 +15,7 @@ import qs.Modules.AppDrawer
 import qs.Modules.DDash
 import qs.Modules.ControlCenter
 import qs.Modules.Dock
+import qs.Modules.HomeScreen
 import qs.Modules.Lock
 import qs.Modules.Notepad
 import qs.Modules.Notifications.Center
@@ -58,6 +59,8 @@ Item {
     }
 
     DesktopWidgetLayer {}
+
+    HomeScreenHost {}
 
     DesktopWidgetEditor {}
 

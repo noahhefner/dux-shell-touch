@@ -17,10 +17,10 @@
 
 **Purpose**: Project exploration and preparation
 
-- [ ] T001 Read and understand existing app discovery/launch patterns in `quickshell/Services/AppSearchService.qml`, `quickshell/Services/SessionService.qml`, `quickshell/Services/DesktopService.qml`
-- [ ] T002 [P] Review existing launcher implementations (`quickshell/Modals/DLauncherV2/LauncherContent.qml`, `quickshell/Modules/AppDrawer/AppDrawerPopout.qml`) for reusable patterns
-- [ ] T003 [P] Review compositor integration patterns in `quickshell/Services/CompositorService.qml` and window/maximize handling
-- [ ] T004 [P] Review Theme/I18n usage patterns for consistent styling
+- [x] T001 Read and understand existing app discovery/launch patterns in `quickshell/Services/AppSearchService.qml`, `quickshell/Services/SessionService.qml`, `quickshell/Services/DesktopService.qml`
+- [x] T002 [P] Review existing launcher implementations (`quickshell/Modals/DLauncherV2/LauncherContent.qml`, `quickshell/Modules/AppDrawer/AppDrawerPopout.qml`) for reusable patterns
+- [x] T003 [P] Review compositor integration patterns in `quickshell/Services/CompositorService.qml` and window/maximize handling
+- [x] T004 [P] Review Theme/I18n usage patterns for consistent styling
 
 ---
 
@@ -30,9 +30,9 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Create HomeScreen module directory structure at `quickshell/Modules/HomeScreen/` and `quickshell/Modules/HomeScreen/Components/`
-- [ ] T006 Define approach for Home Screen activation/navigation (investigate existing shell navigation/modal patterns) and document integration point
-- [ ] T007 Verify app launch flow via `SessionService.launchDesktopEntry()` works as expected and note how to achieve maximized (monocle) behavior per compositor (document findings)
+- [x] T005 Create HomeScreen module directory structure at `quickshell/Modules/HomeScreen/` and `quickshell/Modules/HomeScreen/Components/`
+- [x] T006 Define approach for Home Screen activation/navigation (investigate existing shell navigation/modal patterns) and document integration point
+- [x] T007 Verify app launch flow via `SessionService.launchDesktopEntry()` works as expected and note how to achieve maximized (monocle) behavior per compositor (document findings)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -46,10 +46,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T008 [P] [US1] Create `quickshell/Modules/HomeScreen/Components/AppTile.qml` with >=48x48 touch targets, icon/name display, missing-icon fallback, press feedback
-- [ ] T009 [US1] Create `quickshell/Modules/HomeScreen/HomeScreen.qml` with responsive grid (GridView) using `AppSearchService` for app list, handle loading/empty states, support portrait/landscape
-- [ ] T010 [US1] Add orientation handling and responsive column calculation in `quickshell/Modules/HomeScreen/HomeScreen.qml` using available width/height (no hardcoded dimensions)
-- [ ] T011 [US1] Apply Theme tokens and follow existing styling conventions throughout HomeScreen components
+- [x] T008 [P] [US1] Create `quickshell/Modules/HomeScreen/Components/AppTile.qml` with >=48x48 touch targets, icon/name display, missing-icon fallback, press feedback
+- [x] T009 [US1] Create `quickshell/Modules/HomeScreen/HomeScreen.qml` with responsive grid (GridView) using `AppSearchService` for app list, handle loading/empty states, support portrait/landscape
+- [x] T010 [US1] Add orientation handling and responsive column calculation in `quickshell/Modules/HomeScreen/HomeScreen.qml` using available width/height (no hardcoded dimensions)
+- [x] T011 [US1] Apply Theme tokens and follow existing styling conventions throughout HomeScreen components
 
 **Checkpoint**: User Story 1 functional - apps displayed in touch-friendly grid
 
@@ -63,12 +63,12 @@
 
 ### Implementation for User Story 2
 
-- [ ] T012 [US2] Wire app tile tap to launch via `SessionService.launchDesktopEntry()` using app data from `AppSearchService` in `quickshell/Modules/HomeScreen/Components/AppTile.qml` / `HomeScreen.qml`
-- [ ] T013 [US2] Ensure launch uses existing launch flow (respecting overrides/prefixes/terminal/NVIDIA) - no custom exec logic
-- [ ] T014 [US2] Add launch failure handling with graceful non-blocking feedback in HomeScreen
-- [ ] T015 [US2] Verify/configure launch to result in maximized (monocle) window per compositor (use existing mechanisms; document any limitations if not controllable)
+- [x] T012 [US2] Wire app tile tap to launch via `SessionService.launchDesktopEntry()` using app data from `AppSearchService` in `quickshell/Modules/HomeScreen/Components/AppTile.qml` / `HomeScreen.qml`
+- [x] T013 [US2] Ensure launch uses existing launch flow (respecting overrides/prefixes/terminal/NVIDIA) - no custom exec logic
+- [x] T014 [US2] Add launch failure handling with graceful non-blocking feedback in HomeScreen
+- [x] T015 [US2] Verify that DMS has no portable maximize request in the launch service; document the compositor/window-rule limitation without adding QML window management
 
-**Checkpoint**: User Story 2 functional - apps launch maximized via touch
+**Checkpoint**: User Story 2 functional - apps launch via the shared service; window state remains compositor-configured
 
 ---
 
@@ -80,9 +80,9 @@
 
 ### Implementation for User Story 3
 
-- [ ] T016 [US3] Add touch-accessible "Return to Home" control in appropriate location (>=48x48, easy to reach) in `quickshell/Modules/HomeScreen/HomeScreen.qml` or integration point
-- [ ] T017 [US3] Implement navigation back to Home Screen using chosen integration pattern (no app termination)
-- [ ] T018 [US3] Ensure Home Screen can be shown as primary interface and running apps remain alive (verify no shell-managed window cleanup)
+- [x] T016 [US3] Add touch-accessible "Return to Home" control in appropriate location (>=48x48, easy to reach) in `quickshell/Modules/HomeScreen/HomeScreen.qml` or integration point
+- [x] T017 [US3] Implement navigation back to Home Screen using chosen integration pattern (no app termination)
+- [x] T018 [US3] Ensure Home Screen can be shown as primary interface and running apps remain alive (verify no shell-managed window cleanup)
 
 **Checkpoint**: All three user stories functional - core loop complete
 
@@ -92,13 +92,13 @@
 
 **Purpose**: Improvements affecting multiple user stories
 
-- [ ] T019 [P] Add missing icon fallbacks and loading states consistently across components
-- [ ] T020 [P] Review touch target sizing and spacing across all HomeScreen controls (>=48x48)
+- [x] T019 [P] Add missing icon fallbacks and empty state; app discovery is synchronous and exposes no loading state
+- [x] T020 [P] Review touch target sizing and spacing across all HomeScreen controls (>=48x48)
 - [ ] T021 [P] Test orientation changes (portrait/landscape) and fix layout issues if any
-- [ ] T022 [P] Ensure error handling is consistent and doesn't crash shell
-- [ ] T023 [P] Follow AGENTS.md conventions (Theme tokens, I18n.tr() where user-facing, D* widgets if applicable, connections/bindings per rules)
+- [x] T022 [P] Ensure error handling is consistent and doesn't crash shell
+- [x] T023 [P] Follow AGENTS.md conventions (Theme tokens, I18n.tr() where user-facing, D* widgets if applicable, connections/bindings per rules)
 - [ ] T024 Run validation per quickstart.md and document any compositor limitations
-- [ ] T025 Update documentation if needed (note Home Screen usage/limitations)
+- [x] T025 Update documentation if needed (note Home Screen usage/limitations)
 
 ---
 

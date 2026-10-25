@@ -38,6 +38,7 @@ This will provide:
 
 - Go 1.25+ toolchain (go, gopls, delve, go-tools) and GNU Make
 - Quickshell and required QML packages
+- Sway, Xwayland, and util-linux for the local tablet test session
 - Properly configured QML2_IMPORT_PATH
 
 The dev shell automatically creates the `.qmlls.ini` file in the `quickshell/` directory.
@@ -59,6 +60,18 @@ The Go core depends on [dankgo](https://github.com/duxlabs-dev/dux-go) for loggi
 ```
 go work init ./core ../dankgo
 ```
+
+### Local tablet UI session
+
+From a Wayland desktop session, enter `nix develop` and run:
+
+```bash
+make test-tablet
+```
+
+This builds the development shell and opens the working-tree Home Screen in a nested Sway session. Set `TABLET_TEST_ORIENTATION=portrait` to start portrait; press `F8` for landscape, `F9` for portrait, and `F10` to close the nested session. `Ctrl-C` in the launching terminal also stops it. See [the local test quickstart](specs/002-local-testing-setup/quickstart.md) for the full validation flow.
+
+The runner uses temporary shell/compositor configuration and does not alter the host compositor configuration or the normal DMS profile. It is not a security sandbox: applications launched inside the test session can access the developer's files and user services. Pointer input can check the interaction flow, but cannot validate touch delivery, gestures, OSK behavior, hardware rotation, or other compositors; those still need target validation.
 
 ## Shared widgets (dux-qml-common)
 

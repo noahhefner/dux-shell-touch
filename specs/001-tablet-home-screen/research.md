@@ -8,17 +8,17 @@
 - **Alternatives considered**: Direct `Quickshell.execDetached` from UI (would bypass overrides/prefixes/terminal handling/NVIDIA/dGPU logic) — rejected.
 
 ### 2) Where to surface Home Screen and how to "return to Home"
-- **Decision**: Investigate existing navigation patterns (DLauncherV2 modal, AppDrawer popout, overview/island behaviors). Prefer integrating into an existing activation path or adding a focused module that can be shown as primary surface; must not terminate running apps.
-- **Rationale**: Constitution requires reusing infra and not reimplementing window management; compositor owns windows.
-- **Alternatives considered**: Creating a new global modal that takes over everything — likely overreaching; better to find minimal integration point.
+- **Decision**: Load a focused Home Screen host from `DMSShell.qml`. It presents the Home Screen at startup and keeps a small touch-accessible Home button available above running windows. Hiding/reopening the shell surface does not manage or terminate application windows.
+- **Rationale**: The existing launcher and app drawer are transient popouts, so they do not provide a persistent return-to-home affordance when an application covers the desktop. A small layer-shell surface provides that affordance without custom window management.
+- **Alternatives considered**: Reusing the app drawer would not provide a tablet-first primary surface; a keyboard shortcut is not touch accessible; controlling application windows from QML would violate the compositor boundary.
 
 ### 3) Maximized (monocle) launch behavior
-- **Decision**: Do not force maximization in QML. Launch via existing mechanisms; rely on compositor behavior or existing window rules/config. The requirement states "the app should launch as a maximzed window (monocle) not a floating window" — need to verify how compositor handles this in Dux Shell context (niri/hyprland/mangowc/labwc/etc.). May need to use existing compositor integration if available.
-- **Rationale**: Window management is compositor's responsibility per constitution.
-- **Alternatives considered**: QML window positioning — explicitly forbidden.
+- **Decision**: Launch through `SessionService.launchDesktopEntry()` and do not request or force maximization from QML. The shared launch service exposes no portable maximize operation; window state remains a compositor/window-rule decision.
+- **Rationale**: Window management is the compositor's responsibility per constitution. A generic DMS launch cannot guarantee monocle behavior on every supported compositor.
+- **Alternatives considered**: QML window positioning or compositor-specific commands in the Home Screen — both violate portability and the window-management boundary.
 
 ### 4) Layout and touch targets
-- **Decision**: Use responsive GridView/Flickable with calculated columns based on available width/orientation and icon size; enforce >=48x48 dp touch targets; use Theme tokens.
+- **Decision**: Use responsive `DGridView` with columns calculated from available width and Theme sizing tokens; enforce >=48x48 dp touch targets.
 - **Rationale**: Matches constitution touch requirements and existing patterns.
 
 ### 5) States
@@ -26,5 +26,5 @@
 - **Rationale**: Reliability requirement.
 
 ## Open Questions / Findings to verify during implementation
-- Exact integration point to make Home Screen primary (and how to "return to Home" from apps) — check existing shell navigation.
-- Whether any compositor config/IPC exists to request maximize/monocle on launch or if it's default behavior; if not directly controllable, document limitation.
+- Manual validation is still required on target compositors to confirm layer ordering, touch behavior, and app launch focus.
+- Maximized/monocle behavior cannot be guaranteed generically; document compositor-specific behavior observed during manual validation.

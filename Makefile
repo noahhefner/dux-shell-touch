@@ -19,7 +19,7 @@ SHELL_INSTALL_DIR=$(DATA_DIR)/quickshell/dms
 ASSETS_DIR=assets
 APPLICATIONS_DIR=$(DATA_DIR)/applications
 
-.PHONY: all build dev run clean lint-qml install install-bin install-completions install-systemd install-icon install-desktop uninstall uninstall-bin uninstall-shell uninstall-completions uninstall-systemd uninstall-icon uninstall-desktop help
+.PHONY: all build dev run test-tablet clean lint-qml install install-bin install-completions install-systemd install-icon install-desktop uninstall uninstall-bin uninstall-shell uninstall-completions uninstall-systemd uninstall-icon uninstall-desktop help
 
 all: build
 
@@ -33,6 +33,9 @@ dev:
 
 run: dev
 	@$(BUILD_DIR)/$(BINARY_NAME) run -c $(CURDIR)/$(SHELL_DIR)
+
+test-tablet:
+	@./scripts/dev-tablet-test.sh
 
 clean:
 	@echo "Cleaning build artifacts..."
@@ -158,6 +161,7 @@ help:
 	@echo "  clean                - Clean build artifacts"
 	@echo "  lint-qml             - Run qmllint on shell entrypoints using the Quickshell tooling VFS"
 	@echo "  test-qml             - Run shell logic and Qt unit tests"
+	@echo "  test-tablet          - Run the local tablet UI in a nested Sway session"
 	@echo ""
 	@echo "Install:"
 	@echo "  install              - Build and install everything (requires sudo)"
